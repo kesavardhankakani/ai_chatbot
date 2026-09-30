@@ -1,0 +1,16 @@
+services:
+  bookstore:
+    build: .
+    restart: unless-stopped
+    init: true
+    ports:
+      - "127.0.0.1:${CHAT_PORT:-8000}:8000"
+    environment:
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-llama3.2:3b}
+      BOOKSTORE_DATABASE: /app/data/bookstore.sqlite3
+    volumes:
+      - bookstore-data:/app/data
+
+volumes:
+  bookstore-data:
